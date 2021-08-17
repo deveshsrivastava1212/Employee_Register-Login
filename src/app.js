@@ -28,6 +28,10 @@ app.get('/register', (req, res) => {
     res.render("register");
 })
 
+app.get('/login', (req, res) => {
+    res.render("login");
+})
+
 // create a new user in our database
 app.post('/register', async (req, res) => {
     try{
@@ -58,6 +62,23 @@ app.post('/register', async (req, res) => {
         res.status(400).send(err);
     }
 });
+
+app.post('/login', async (req, res) => {
+    try{
+        const email = req.body.email;
+        const password = req.body.password;
+
+        const useremail = await Register.findOne({ email: email})
+        if ( password === useremail.password){
+            res.status(201).render("index");
+        }
+        else {
+            res.send("Invalid Email or password")
+        }
+    }catch(err){
+        res.status(400).send(err);
+    }
+})
 
 app.listen( port, ()=>{
     console.log(`Server is running at port ${port}`);
