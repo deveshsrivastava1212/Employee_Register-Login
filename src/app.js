@@ -1,4 +1,5 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const path = require("path");
 const hbs = require('hbs');
 const app = express();
@@ -49,9 +50,13 @@ app.post('/register', async (req, res) => {
                 gender: req.body.gender,
                 email: req.body.email,
                 phone: req.body.phone,
-                // age: req.body.age
             })
-            
+
+            console.log("the entries "+ register);
+
+            const token = await register.generateAuthToken();
+            console.log("the token "+ token);
+
             const registered = await register.save();
             res.status(201).render("index");
 
@@ -60,6 +65,7 @@ app.post('/register', async (req, res) => {
         }
     }catch(err){
         res.status(400).send(err);
+        console.log("error page")
     }
 });
 
@@ -77,8 +83,21 @@ app.post('/login', async (req, res) => {
         }
     }catch(err){
         res.status(400).send(err);
+        console.error(err);
     }
 })
+
+// Jwt authentication
+// const createToken = async() => {
+//     const token = await jwt.sign({_id:"6123658d6edae21fac76cd08"}, "helloMyNameIsDeveshSrivastavaIAmABackendDeveloper", {
+//         expiresIn: "1 hour"
+//     });
+//     console.log(token);
+
+//     const userVeri = await jwt.verify(token, "helloMyNameIsDeveshSrivastavaIAmABackendDeveloper")
+//     console.log(userVeri);
+// }
+
 
 app.listen( port, ()=>{
     console.log(`Server is running at port ${port}`);
