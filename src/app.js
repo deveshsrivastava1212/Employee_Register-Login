@@ -76,6 +76,7 @@ app.post('/login', async (req, res) => {
 
         const useremail = await Register.findOne({ email: email})
         if ( password === useremail.password){
+
             res.status(201).render("index");
         }
         else {
@@ -86,18 +87,6 @@ app.post('/login', async (req, res) => {
         console.error(err);
     }
 })
-
-// Jwt authentication
-// const createToken = async() => {
-//     const token = await jwt.sign({_id:"6123658d6edae21fac76cd08"}, "helloMyNameIsDeveshSrivastavaIAmABackendDeveloper", {
-//         expiresIn: "1 hour"
-//     });
-//     console.log(token);
-
-//     const userVeri = await jwt.verify(token, "helloMyNameIsDeveshSrivastavaIAmABackendDeveloper")
-//     console.log(userVeri);
-// }
-
 
 app.listen( port, ()=>{
     console.log(`Server is running at port ${port}`);

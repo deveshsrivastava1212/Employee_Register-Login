@@ -35,10 +35,12 @@ const schema = new mongoose.Schema ({
         required: true,
         unique: true
     },
-    // age:{
-    //     type:Number,
-    //     required: true
-    // }
+    tokens : [{
+        token:{
+            type:String,
+            required: true
+        }
+    }]
 })
 
 //generating tokens
@@ -47,8 +49,10 @@ schema.methods.generateAuthToken = async function () {
     try {
         console.log(this._id)
         const token = await jwt.sign({_id: this._id}, "MyNameIsDeveshSrivastavaIAmABackendDeveloper"); 
-        console.log(token);
-
+        this.tokens = this.tokens.concat({token:token});
+        await this.save();
+        console.log(this.tokens);
+        return token;
     } catch (err) {
         res.status(500).send(err);
         console.log("error happened");
@@ -59,11 +63,8 @@ schema.methods.generateAuthToken = async function () {
 schema.pre("save", async function (next) {
 
     if(this.isModified("password")) {
-       console.log(`The current password is ${this.password}`);
         this.password= await bcrypt.hash(this.password, 10);
-        console.log(`Now the current password is ${this.password}`);
-
-        this.confirmpassword = undefined;
+        this.confirmpassword = await bcrypt.hash(this.password, 10);
     }
 })
 
