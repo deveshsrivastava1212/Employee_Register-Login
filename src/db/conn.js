@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost:27017/formRegister", {
+mongoose.connect("mongodb+srv://Devesh:mymongodb@cluster0.5wro2.mongodb.net/Employee_Form?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,

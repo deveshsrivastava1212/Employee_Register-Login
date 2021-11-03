@@ -60,13 +60,13 @@ schema.methods.generateAuthToken = async function () {
 }
 
 //hashing the password
-schema.pre("save", async function (next) {
+// schema.pre("save", async function (next) {
 
-    if(this.isModified("password")) {
-        this.password= await bcrypt.hash(this.password, 10);
-        this.confirmpassword = await bcrypt.hash(this.password, 10);
-    }
-})
+//     if(this.isModified("password")) {
+//         this.password= await bcrypt.hash(this.password, 10);
+//         this.confirmpassword = await bcrypt.hash(this.password, 10);
+//     }
+// })
 
 const Register = mongoose.model('Register', schema);
 
